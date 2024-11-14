@@ -5,7 +5,7 @@ export default function CardTask({ title, description, done }) {
     <div>
         <div>{title}</div>
         <div>{description}</div>
-        <div>{done}</div>
+        <div>{done ? "True" : "False"}</div>
         <br/>
     </div>
   )

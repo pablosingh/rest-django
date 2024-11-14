@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import axios from 'axios';
 
 export default function CreateTask() {
     const initialData = {
@@ -16,12 +17,20 @@ export default function CreateTask() {
     const handleCheck = e => {
         setDoneState(e.target.checked);
     };
+    const sendTask = async () => {
+        const res = await axios.post('http://localhost:8000/tasks/api/v1/tasks/', {
+            ...data,
+            done: doneState
+        });
+        console.log(res);
+    }
     const sending = e => {
         e.preventDefault();
         console.log({
             ...data,
             done: doneState
         });
+        sendTask();
         setData(initialData);
         setDoneState(false);
     }

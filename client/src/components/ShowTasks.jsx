@@ -23,6 +23,7 @@ export default function ShowTasks() {
       <br/>
       {
         arrayTasks && arrayTasks.map( task => <CardTask 
+          key={task.id}
           title={task.title}
           description={task.description}
           done={task.done}
