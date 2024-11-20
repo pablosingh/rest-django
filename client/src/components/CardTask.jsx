@@ -1,13 +1,19 @@
-import React from 'react'
+import React from 'react';
+import styled from 'styled-components';
 
 export default function CardTask({ title, description, done }) {
   return (
-    <div>
+    <ContainerStyled>
         <div>{title}</div>
         <div>{description}</div>
         <div>{done ? "True" : "False"}</div>
         <br/>
-    </div>
+    </ContainerStyled>
   )
-}
+};
 
+const ContainerStyled = styled.div`
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-around;
+`;
