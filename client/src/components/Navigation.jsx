@@ -1,15 +1,19 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components'
+import React from "react";
+import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 export default function Navigation() {
-  return (
-    <ContainerStyled>
-        <Link to='/tasks' className='link'>Tareas</Link>
-        <Link to='/create' className='link'>Crear Tarea</Link>
-    </ContainerStyled>
-  )
-};
+    return (
+        <ContainerStyled>
+            <Link to="/tasks" className="link">
+                Tareas
+            </Link>
+            <Link to="/create" className="link">
+                Crear Tarea
+            </Link>
+        </ContainerStyled>
+    );
+}
 
 const ContainerStyled = styled.div`
     margin: 0em 0em;
@@ -17,15 +21,15 @@ const ContainerStyled = styled.div`
     display: flex;
     justify-content: space-around;
     align-items: center;
-    background-color: rgba(25,125,175,255);
+    background-color: rgba(25, 125, 175, 255);
     height: 20vh;
-    .link{
-      color: black;
-      font-weight: bold;
-      margin: 0em 0em;
-      padding: 0.2em 0.7em;
-      border-radius: 5em;
-      text-decoration: none;
-      background-color: rgba(135,213,225,255);
+    .link {
+        color: black;
+        font-weight: bold;
+        margin: 0em 0em;
+        padding: 0.2em 0.7em;
+        border-radius: 5em;
+        text-decoration: none;
+        background-color: rgba(135, 213, 225, 255);
     }
 `;
