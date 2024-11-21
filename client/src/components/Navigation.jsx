@@ -22,7 +22,7 @@ const ContainerStyled = styled.div`
     justify-content: space-around;
     align-items: center;
     background-color: rgba(25, 125, 175, 255);
-    height: 20vh;
+    height: 15vh;
     .link {
         color: black;
         font-weight: bold;
