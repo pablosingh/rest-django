@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
+import Modal from "../components/Modal";
 
 export default function FormTaskPage() {
     const initialData = {
@@ -9,6 +10,10 @@ export default function FormTaskPage() {
     };
     const [data, setData] = useState(initialData);
     const [doneState, setDoneState] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [msgModal, setMsgModal] = useState("Nota Guardada");
+    const openModal = () => setShowModal(true);
+    const closeModal = () => setShowModal(false);
     const changing = (e) => {
         setData({
             ...data,
@@ -19,14 +24,21 @@ export default function FormTaskPage() {
         setDoneState(e.target.checked);
     };
     const sendTask = async () => {
-        const res = await axios.post(
-            "http://localhost:8000/tasks/api/v1/tasks/",
-            {
-                ...data,
-                done: doneState,
-            },
-        );
-        console.log(res);
+        try {
+            const res = await axios.post(
+                "http://localhost:8000/tasks/api/v1/tasks/",
+                {
+                    ...data,
+                    done: doneState,
+                },
+            );
+            setMsgModal("Nota Guardada");
+            console.log(msgModal);
+        } catch (error) {
+            setMsgModal("Error al guardar");
+            console.log(error);
+            console.log(msgModal);
+        }
     };
     const sending = (e) => {
         e.preventDefault();
@@ -34,9 +46,16 @@ export default function FormTaskPage() {
             ...data,
             done: doneState,
         });
-        sendTask();
+        try {
+            sendTask();
+        } catch (error) {
+            setMsgModal("Error al guardar");
+            console.log(error);
+        }
         setData(initialData);
         setDoneState(false);
+        openModal();
+        setTimeout(closeModal, 2500);
     };
     return (
         <Container>
@@ -75,6 +94,11 @@ export default function FormTaskPage() {
                     Enviar
                 </button>
             </FormStyled>
+            <Modal
+                isOpen={showModal}
+                closeModal={closeModal}
+                children={msgModal}
+            />
         </Container>
     );
 }

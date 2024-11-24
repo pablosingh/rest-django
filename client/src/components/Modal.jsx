@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { secondaryColor } from "../styles/colors";
 
 export default function Modal({ isOpen, onClose, children }) {
     if (!isOpen) return null;
@@ -31,8 +30,8 @@ const ModalContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    color: green;
-    background: ${secondaryColor};
+    color: black;
+    background: rgba(215, 226, 229, 1);
     width: 10%;
     padding: 1em 2em;
     border-radius: 5em;
