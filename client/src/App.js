@@ -18,6 +18,7 @@ export default function App() {
                         }
                     />
                     <Route path="/tasks" element={<ListTasksPage />} />
+                    <Route path="/tasks/:id" element={<FormTaskPage />} />
                     <Route path="/create" element={<FormTaskPage />} />
                 </Routes>
             </BrowserRouter>

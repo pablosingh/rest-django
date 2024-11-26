@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../components/Modal";
 
 export default function FormTaskPage() {
+    const params = useParams();
     const initialData = {
         title: "",
         description: "",
@@ -57,6 +59,23 @@ export default function FormTaskPage() {
         openModal();
         setTimeout(closeModal, 2500);
     };
+    useEffect(() => {
+        async function loadTask() {
+            if (params.id) {
+                try {
+                    const res = await axios.get(
+                        `http://localhost:8000/tasks/api/v1/tasks/${params.id}`,
+                    );
+                    console.log(res);
+                    setData(res.data);
+                    setDoneState(res.data.done);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        }
+        loadTask();
+    }, []);
     return (
         <Container>
             <FormStyled>

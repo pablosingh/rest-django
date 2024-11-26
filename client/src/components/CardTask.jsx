@@ -1,9 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
-export default function CardTask({ title, description, done }) {
+export default function CardTask({ id, title, description, done }) {
+    // const { id, title, description, done } = props;
+    const navigate = useNavigate();
     return (
-        <ContainerStyled>
+        <ContainerStyled
+            onClick={() => {
+                navigate("/tasks/" + id);
+            }}
+        >
             <div className="title item">{title}</div>
             <input
                 type="textfield"

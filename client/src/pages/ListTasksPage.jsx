@@ -25,6 +25,7 @@ export default function ListTasksPage() {
                 ? arrayTasks.map((task) => (
                       <CardTask
                           key={task.id}
+                          id={task.id}
                           title={task.title}
                           description={task.description}
                           done={task.done}
