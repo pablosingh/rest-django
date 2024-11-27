@@ -1,41 +1,42 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Modal from "../components/Modal";
 
 export default function FormTaskPage() {
+    const navigate = useNavigate();
     const params = useParams();
     const initialData = {
         title: "",
         description: "",
+        done: false,
     };
     const [data, setData] = useState(initialData);
-    const [doneState, setDoneState] = useState(false);
     const [showModal, setShowModal] = useState(false);
     const [msgModal, setMsgModal] = useState("Nota Guardada");
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
     const changing = (e) => {
-        setData({
-            ...data,
-            [e.target.name]: e.target.value,
-        });
-    };
-    const handleCheck = (e) => {
-        setDoneState(e.target.checked);
+        if (e.target.name == "done") {
+            setData({
+                ...data,
+                [e.target.name]: e.target.checked,
+            });
+        } else {
+            setData({
+                ...data,
+                [e.target.name]: e.target.value,
+            });
+        }
     };
     const sendTask = async () => {
         try {
             const res = await axios.post(
                 "http://localhost:8000/tasks/api/v1/tasks/",
-                {
-                    ...data,
-                    done: doneState,
-                },
+                data,
             );
             setMsgModal("Nota Guardada");
-            console.log(msgModal);
         } catch (error) {
             setMsgModal("Error al guardar");
             console.log(error);
@@ -44,10 +45,6 @@ export default function FormTaskPage() {
     };
     const sending = (e) => {
         e.preventDefault();
-        console.log({
-            ...data,
-            done: doneState,
-        });
         try {
             sendTask();
         } catch (error) {
@@ -55,9 +52,31 @@ export default function FormTaskPage() {
             console.log(error);
         }
         setData(initialData);
-        setDoneState(false);
         openModal();
         setTimeout(closeModal, 2500);
+    };
+    const updateTask = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(
+                `http://localhost:8000/tasks/api/v1/tasks/${params.id}/`,
+                data,
+            );
+        } catch (error) {
+            console.log(error);
+        }
+        navigate("/tasks/");
+    };
+    const deleteTask = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.delete(
+                `http://localhost:8000/tasks/api/v1/tasks/${params.id}/`,
+            );
+        } catch (error) {
+            console.log(error);
+        }
+        navigate("/tasks/");
     };
     useEffect(() => {
         async function loadTask() {
@@ -66,9 +85,7 @@ export default function FormTaskPage() {
                     const res = await axios.get(
                         `http://localhost:8000/tasks/api/v1/tasks/${params.id}`,
                     );
-                    console.log(res);
                     setData(res.data);
-                    setDoneState(res.data.done);
                 } catch (error) {
                     console.log(error);
                 }
@@ -104,14 +121,26 @@ export default function FormTaskPage() {
                     <input
                         type="checkbox"
                         name="done"
-                        checked={doneState}
+                        checked={data.done}
                         className=""
-                        onChange={handleCheck}
+                        onChange={changing}
                     />
                 </label>
-                <button className="btn" onClick={sending}>
-                    Enviar
-                </button>
+                {!params.id && (
+                    <button className="btn" onClick={sending}>
+                        Crear
+                    </button>
+                )}
+                {params.id && (
+                    <div>
+                        <button className="btn" onClick={updateTask}>
+                            Editar
+                        </button>
+                        <button className="btn" onClick={deleteTask}>
+                            Borrar
+                        </button>
+                    </div>
+                )}
             </FormStyled>
             <Modal
                 isOpen={showModal}

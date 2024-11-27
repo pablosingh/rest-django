@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 export default function CardTask({ id, title, description, done }) {
-    // const { id, title, description, done } = props;
     const navigate = useNavigate();
     return (
         <ContainerStyled
@@ -17,10 +16,16 @@ export default function CardTask({ id, title, description, done }) {
                 className="item"
                 value={description}
                 disabled={false}
+                onChange={() => {}}
             />
             <label className="item flex-space-around">
                 Check
-                <input type="checkbox" checked={done} disabled={false} />
+                <input
+                    type="checkbox"
+                    checked={done}
+                    disabled={false}
+                    onChange={() => {}}
+                />
             </label>
         </ContainerStyled>
     );
