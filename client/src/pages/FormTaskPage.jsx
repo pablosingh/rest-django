@@ -52,8 +52,10 @@ export default function FormTaskPage() {
             console.log(error);
         }
         setData(initialData);
+        console.log("Modal");
         openModal();
-        setTimeout(closeModal, 2500);
+        setTimeout(closeModal, 1500);
+        // navigate("/tasks/");
     };
     const updateTask = async (e) => {
         e.preventDefault();
@@ -142,11 +144,7 @@ export default function FormTaskPage() {
                     </div>
                 )}
             </FormStyled>
-            <Modal
-                isOpen={showModal}
-                closeModal={closeModal}
-                children={msgModal}
-            />
+            {showModal && <Modal onClose={closeModal} children={msgModal} />}
         </Container>
     );
 }

@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-export default function Modal({ isOpen, onClose, children }) {
-    if (!isOpen) return null;
-
+export default function Modal({ onClose, children }) {
     return (
         <Container>
             <ModalContainer>
@@ -24,6 +22,7 @@ const Container = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 `;
 
 const ModalContainer = styled.div`
