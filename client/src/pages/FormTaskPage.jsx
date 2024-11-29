@@ -15,8 +15,9 @@ export default function FormTaskPage() {
     const [data, setData] = useState(initialData);
     const [showModal, setShowModal] = useState(false);
     const [msgModal, setMsgModal] = useState("Nota Guardada");
-    const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
+    const [modalDelete, setModalDelete] = useState(false);
+    const closeModalDelete = () => setModalDelete(false);
     const changing = (e) => {
         if (e.target.name == "done") {
             setData({
@@ -52,10 +53,9 @@ export default function FormTaskPage() {
             console.log(error);
         }
         setData(initialData);
-        console.log("Modal");
-        openModal();
-        setTimeout(closeModal, 1500);
-        // navigate("/tasks/");
+        setShowModal(true);
+        setTimeout(closeModal, 1000);
+        setTimeout(() => navigate("/tasks/"), 1000);
     };
     const updateTask = async (e) => {
         e.preventDefault();
@@ -78,7 +78,9 @@ export default function FormTaskPage() {
         } catch (error) {
             console.log(error);
         }
-        navigate("/tasks/");
+        setModalDelete(true);
+        setTimeout(closeModalDelete, 1000);
+        setTimeout(() => navigate("/tasks/"), 1000);
     };
     useEffect(() => {
         async function loadTask() {
@@ -145,6 +147,12 @@ export default function FormTaskPage() {
                 )}
             </FormStyled>
             {showModal && <Modal onClose={closeModal} children={msgModal} />}
+            {modalDelete && (
+                <Modal
+                    onClose={closeModalDelete}
+                    children={"Exito al borrar"}
+                />
+            )}
         </Container>
     );
 }
