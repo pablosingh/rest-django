@@ -13,11 +13,13 @@ export default function FormTaskPage() {
         done: false,
     };
     const [data, setData] = useState(initialData);
-    const [showModal, setShowModal] = useState(false);
+    const [modalCreate, setModalCreate] = useState(false);
     const [msgModal, setMsgModal] = useState("Nota Guardada");
-    const closeModal = () => setShowModal(false);
+    const closeModalCreate = () => setModalCreate(false);
     const [modalDelete, setModalDelete] = useState(false);
     const closeModalDelete = () => setModalDelete(false);
+    const [modalUpdate, setModalUpdate] = useState(false);
+    const closeModalUpdate = () => setModalUpdate(false);
     const changing = (e) => {
         if (e.target.name == "done") {
             setData({
@@ -53,8 +55,8 @@ export default function FormTaskPage() {
             console.log(error);
         }
         setData(initialData);
-        setShowModal(true);
-        setTimeout(closeModal, 1000);
+        setModalCreate(true);
+        setTimeout(closeModalCreate, 1000);
         setTimeout(() => navigate("/tasks/"), 1000);
     };
     const updateTask = async (e) => {
@@ -67,7 +69,9 @@ export default function FormTaskPage() {
         } catch (error) {
             console.log(error);
         }
-        navigate("/tasks/");
+        setModalUpdate(true);
+        setTimeout(closeModalUpdate, 1000);
+        setTimeout(() => navigate("/tasks/"), 1000);
     };
     const deleteTask = async (e) => {
         e.preventDefault();
@@ -146,11 +150,19 @@ export default function FormTaskPage() {
                     </div>
                 )}
             </FormStyled>
-            {showModal && <Modal onClose={closeModal} children={msgModal} />}
+            {modalCreate && (
+                <Modal onClose={closeModalCreate} children={msgModal} />
+            )}
             {modalDelete && (
                 <Modal
                     onClose={closeModalDelete}
                     children={"Exito al borrar"}
+                />
+            )}
+            {modalUpdate && (
+                <Modal
+                    onClose={closeModalDelete}
+                    children={"Exito al Editar"}
                 />
             )}
         </Container>
